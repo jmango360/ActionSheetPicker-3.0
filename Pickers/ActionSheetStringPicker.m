@@ -118,6 +118,22 @@
 }
 
 #pragma mark - UIPickerViewDelegate / DataSource
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 230, 37)];
+    
+    if (component == 0) {
+        
+        label.font=[UIFont boldSystemFontOfSize:22];
+        label.textAlignment = NSTextAlignmentLeft;
+        label.backgroundColor = [UIColor clearColor];
+        
+        label.text = [NSString stringWithFormat:@"%@", [self.data objectAtIndex:row]];
+        
+        
+    }
+    return label;
+}
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.selectedIndex = row;
