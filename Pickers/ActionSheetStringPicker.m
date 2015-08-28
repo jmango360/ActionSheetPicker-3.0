@@ -26,8 +26,9 @@
 //
 
 #import "ActionSheetStringPicker.h"
+#import "SWActionSheet.h"
 
-@interface ActionSheetStringPicker()
+@interface ActionSheetStringPicker()<UIGestureRecognizerDelegate>
 @property (nonatomic,strong) NSArray *data;
 @property (nonatomic,assign) NSInteger selectedIndex;
 @end
@@ -81,11 +82,50 @@
         stringPicker.showsSelectionIndicator = YES;
         stringPicker.userInteractionEnabled = YES;
     }
-
+    
     //need to keep a reference to the picker so we can clear the DataSource / Delegate when dismissing
     self.pickerView = stringPicker;
-
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickerViewTapGestureRecognized:)];
+    gesture.delegate = self;
+    [self.pickerView addGestureRecognizer:gesture];
     return stringPicker;
+}
+
+
+
+- (void)pickerViewTapGestureRecognized:(UITapGestureRecognizer*)gestureRecognizer
+{
+    
+    UIPickerView *pickerView = (UIPickerView *)self.pickerView;
+    
+    CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view.superview];
+    
+    CGRect frame = pickerView.frame;
+    CGRect selectorFrame = CGRectInset( frame, 0.0, self.pickerView.bounds.size.height * 0.85 / 2.0 );
+    
+    if( CGRectContainsPoint( selectorFrame, touchPoint) )
+    {
+        
+        NSInteger row = [pickerView selectedRowInComponent:0];
+        self.selectedIndex = row;
+        id selectedObject = (self.data.count > 0) ? (self.data)[(NSUInteger) self.selectedIndex] : nil;
+        _onActionSheetDone(self, self.selectedIndex, selectedObject);
+        SWActionSheet *sheet = (SWActionSheet *) self.pickerView.superview.superview;
+        [sheet dismissWithClickedButtonIndex:0 animated:YES];
+        return;
+    }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    // return
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    return YES;
 }
 
 - (void)notifyTarget:(id)target didSucceedWithAction:(SEL)successAction origin:(id)origin {
@@ -149,17 +189,17 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     id obj = (self.data)[(NSUInteger) row];
-
+    
     // return the object if it is already a NSString,
     // otherwise, return the description, just like the toString() method in Java
     // else, return nil to prevent exception
-
+    
     if ([obj isKindOfClass:[NSString class]])
         return obj;
-
+    
     if ([obj respondsToSelector:@selector(description)])
         return [obj performSelector:@selector(description)];
-
+    
     return nil;
 }
 

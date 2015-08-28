@@ -61,45 +61,48 @@ static NSString *const kActionTarget  = @"buttonActionTarget";
 @property (nonatomic, strong) NSMutableArray *customButtons;
 @property (nonatomic, assign) BOOL hideCancel;
 @property (nonatomic, assign) CGRect presentFromRect;
+@property (strong, nonatomic) UIColor *backgroundColor;
+@property (strong, nonatomic) UIColor *titleColor;
+
 @property (nonatomic) NSDictionary *titleTextAttributes; // default is nil. Used to specify Title Label attributes.
 @property (nonatomic) NSAttributedString *attributedTitle; // default is nil. If titleTextAttributes not nil this value ignorred.
 @property (nonatomic, retain) Class popoverBackgroundViewClass; //allow popover customization on iPad
 @property (nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations; // You can set your own supportedInterfaceOrientations value to prevent dismissing picker in some special cases.
 
-    // For subclasses.
+// For subclasses.
 - (id)initWithTarget:(id)target successAction:(SEL)successAction cancelAction:(SEL)cancelActionOrNil origin:(id)origin;
 
 // Present the ActionSheetPicker
 - (void)showActionSheetPicker;
 
-    // For subclasses.  This is used to send a message to the target upon a successful selection and dismissal of the picker (i.e. not canceled).
+// For subclasses.  This is used to send a message to the target upon a successful selection and dismissal of the picker (i.e. not canceled).
 - (void)notifyTarget:(id)target didSucceedWithAction:(SEL)successAction origin:(id)origin;
 
-    // For subclasses.  This is an optional message upon cancelation of the picker.
+// For subclasses.  This is an optional message upon cancelation of the picker.
 - (void)notifyTarget:(id)target didCancelWithAction:(SEL)cancelAction origin:(id)origin;
 
-    // For subclasses.  This returns a configured picker view.  Subclasses should autorelease.
+// For subclasses.  This returns a configured picker view.  Subclasses should autorelease.
 - (UIView *)configuredPickerView;
 
-    // Adds custom buttons to the left of the UIToolbar that select specified values
+// Adds custom buttons to the left of the UIToolbar that select specified values
 - (void)addCustomButtonWithTitle:(NSString *)title value:(id)value;
 
-    // Adds custom buttons to the left of the UIToolbar that implement specified block
+// Adds custom buttons to the left of the UIToolbar that implement specified block
 - (void)addCustomButtonWithTitle:(NSString *)title actionBlock:(ActionBlock)block;
 
-    // Adds custom buttons to the left of the UIToolbar that implement specified selector
+// Adds custom buttons to the left of the UIToolbar that implement specified selector
 - (void)addCustomButtonWithTitle:(NSString*)title target:(id)target selector:(SEL)selector;
 
-    //For subclasses. This responds to a custom button being pressed.
+//For subclasses. This responds to a custom button being pressed.
 - (IBAction)customButtonPressed:(id)sender;
 
-    // Allow the user to specify a custom cancel button
+// Allow the user to specify a custom cancel button
 - (void) setCancelButton: (UIBarButtonItem *)button;
 
-    // Allow the user to specify a custom done button
+// Allow the user to specify a custom done button
 - (void) setDoneButton: (UIBarButtonItem *)button;
 
-    // Hide picker programmatically
+// Hide picker programmatically
 - (void) hidePickerWithCancelAction;
 
 @end
