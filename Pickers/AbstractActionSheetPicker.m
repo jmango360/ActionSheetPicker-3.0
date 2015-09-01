@@ -203,7 +203,12 @@ CG_INLINE BOOL isIPhone4()
     // to fix bug, appeared only on iPhone 4 Device: https://github.com/skywinder/ActionSheetPicker-3.0/issues/5
     
     self.toolbar = [self createPickerToolbarWithTitle:self.title];
-    [masterView addSubview:[self viewForToolBar]];
+    if (self.addToolBar) {
+        [masterView addSubview:self.toolbar];
+    } else {
+        [masterView addSubview:[self viewForToolBar]];
+    }
+    
     
     //ios7 picker draws a darkened alpha-only region on the first and last 8 pixels horizontally, but blurs the rest of its background.  To make the whole popup appear to be edge-to-edge, we have to add blurring to the remaining left and right edges.
     if ( NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1 )
@@ -409,10 +414,12 @@ CG_INLINE BOOL isIPhone4()
 
 - (UIToolbar *)createPickerToolbarWithTitle:(NSString *)title
 {
-    CGRect frame = CGRectMake(-60, 0, self.viewSize.width + 60, 44);
+    CGRect frame = CGRectMake(0, 0, self.viewSize.width , 44);
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:frame];
-    pickerToolbar.backgroundColor = [UIColor redColor];
-    //    pickerToolbar.barStyle = (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) ? UIBarStyleDefault : UIBarStyleBlackTranslucent;
+    pickerToolbar.backgroundColor = self.backgroundColor;
+    
+    
+    pickerToolbar.barStyle = (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) ? UIBarStyleDefault : UIBarStyleBlackTranslucent;
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
@@ -442,7 +449,7 @@ CG_INLINE BOOL isIPhone4()
         }
         
         button.tag = index;
-        //        [barItems addObject:button];
+        [barItems addObject:button];
         index++;
     }
     
@@ -457,7 +464,7 @@ CG_INLINE BOOL isIPhone4()
         [barItems addObject:labelButton];
         [barItems addObject:flexSpace];
     }
-    //    [barItems addObject:self.doneBarButtonItem];
+    [barItems addObject:self.doneBarButtonItem];
     
     [pickerToolbar setItems:barItems animated:NO];
     return pickerToolbar;
@@ -468,8 +475,7 @@ CG_INLINE BOOL isIPhone4()
                               andAttributedTitle:(NSAttributedString *)attributedTitle
 {
     UILabel *toolBarItemLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 30)];
-    [toolBarItemLabel setTextAlignment:NSTextAlignmentLeft];
-    [toolBarItemLabel setBackgroundColor:[UIColor redColor]];
+    [toolBarItemLabel setTextAlignment:NSTextAlignmentCenter];
     
     CGFloat strikeWidth;
     CGSize textSize;
@@ -519,6 +525,8 @@ CG_INLINE BOOL isIPhone4()
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:type target:target
                                                                                action:buttonAction];
+    
+    [barButton setTintColor:self.titleColor];
     return barButton;
 }
 

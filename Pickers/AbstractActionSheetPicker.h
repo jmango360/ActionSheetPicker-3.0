@@ -63,6 +63,7 @@ static NSString *const kActionTarget  = @"buttonActionTarget";
 @property (nonatomic, assign) CGRect presentFromRect;
 @property (strong, nonatomic) UIColor *backgroundColor;
 @property (strong, nonatomic) UIColor *titleColor;
+@property (assign, nonatomic) BOOL addToolBar;
 
 @property (nonatomic) NSDictionary *titleTextAttributes; // default is nil. Used to specify Title Label attributes.
 @property (nonatomic) NSAttributedString *attributedTitle; // default is nil. If titleTextAttributes not nil this value ignorred.
