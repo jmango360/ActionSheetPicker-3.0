@@ -595,7 +595,11 @@ CG_INLINE BOOL isIPhone4()
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
     
     _actionSheet = [[SWActionSheet alloc] initWithView:aView];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissPicker)];
     
+    [_actionSheet addGestureRecognizer:tap];
     [self presentActionSheet:_actionSheet];
     
     // Use beginAnimations for a smoother popup animation, otherwise the UIActionSheet pops into view
