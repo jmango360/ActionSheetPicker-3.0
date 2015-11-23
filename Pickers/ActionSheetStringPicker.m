@@ -164,7 +164,7 @@
     
     if (component == 0) {
         
-        label.font=[UIFont boldSystemFontOfSize:22];
+        label.font= [UIFont systemFontOfSize:22];
         label.textAlignment = NSTextAlignmentLeft;
         label.backgroundColor = [UIColor clearColor];
         
