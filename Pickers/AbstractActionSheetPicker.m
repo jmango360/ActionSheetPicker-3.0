@@ -189,7 +189,7 @@ CG_INLINE BOOL isIPhone4()
     label.textAlignment = NSTextAlignmentLeft;
     label.textColor = self.titleColor;
     label.text = self.title;
-    [label setFont:[UIFont boldSystemFontOfSize:22]];
+    [label setFont:[UIFont systemFontOfSize:22]];
     toolBarView.backgroundColor = self.backgroundColor;
     
     [toolBarView addSubview:label];
