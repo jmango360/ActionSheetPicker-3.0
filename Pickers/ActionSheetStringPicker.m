@@ -165,7 +165,11 @@
     if (component == 0) {
         
         label.font= [UIFont systemFontOfSize:22];
-        label.textAlignment = NSTextAlignmentLeft;
+        if (self.textAlignment) {
+            label.textAlignment = self.textAlignment;
+        } else {
+            label.textAlignment = NSTextAlignmentLeft;
+        }
         label.backgroundColor = [UIColor clearColor];
         
         label.text = [NSString stringWithFormat:@"%@", [self.data objectAtIndex:row]];
