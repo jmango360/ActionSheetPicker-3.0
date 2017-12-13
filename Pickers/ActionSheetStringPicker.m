@@ -111,7 +111,9 @@
         id selectedObject = (self.data.count > 0) ? (self.data)[(NSUInteger) self.selectedIndex] : nil;
         _onActionSheetDone(self, self.selectedIndex, selectedObject);
         SWActionSheet *sheet = (SWActionSheet *) self.pickerView.superview.superview;
-        [sheet dismissWithClickedButtonIndex:0 animated:YES];
+        if ([sheet respondsToSelector:@selector(dismissWithClickedButtonIndex:)]) {
+            [sheet dismissWithClickedButtonIndex:0 animated:YES];
+        }
         return;
     }
 }
