@@ -598,7 +598,7 @@ CG_INLINE BOOL isIPhone4()
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissPicker)];
-    
+    tap.delegate = self;
     [_actionSheet addGestureRecognizer:tap];
     [self presentActionSheet:_actionSheet];
     
@@ -684,6 +684,18 @@ CG_INLINE BOOL isIPhone4()
                                animated:YES];
     }
 }
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    if ([touch.view isKindOfClass:[SWActionSheet class]]) {
+        return YES;
+    }
+    return NO;
+}
+
+
 
 #pragma mark - Popoverdelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
