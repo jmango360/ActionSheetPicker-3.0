@@ -166,7 +166,7 @@
     
     if (component == 0) {
         
-        label.font= [UIFont systemFontOfSize:22];
+        label.font= [UIFont systemFontOfSize:15];
         if (self.textAlignment) {
             label.textAlignment = self.textAlignment;
         } else {
@@ -175,7 +175,9 @@
         label.backgroundColor = [UIColor clearColor];
         
         label.text = [NSString stringWithFormat:@"%@", [self.data objectAtIndex:row]];
-        
+        if ([label.text isEqualToString:self.moreText] || [label.text isEqualToString:self.commonText]) {
+            label.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
+        }
         
     }
     return label;
