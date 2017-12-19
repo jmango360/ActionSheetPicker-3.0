@@ -59,4 +59,6 @@ typedef void(^ActionStringCancelBlock)(ActionSheetStringPicker *picker);
 @property (nonatomic, copy) ActionStringDoneBlock onActionSheetDone;
 @property (nonatomic, copy) ActionStringCancelBlock onActionSheetCancel;
 @property (nonatomic, assign) NSTextAlignment textAlignment;
+@property (nonnull, strong) NSString *commonText;
+@property (nonnull, strong) NSString *moreText;
 @end
